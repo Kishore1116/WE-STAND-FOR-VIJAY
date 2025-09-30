@@ -10,27 +10,32 @@
       margin: 0;
       font-family: Arial, sans-serif;
       text-align: center;
-      background: #000; /* fallback background color */
+      background: #000;
       color: white;
+      overflow-x: hidden;
     }
 
+    /* Hero Section */
     .hero {
       background: url("tvk.jpeg") no-repeat center center/cover;
-      background-color: #111; /* fallback color if image fails */
-      height: 50vh;
+      background-color: #111;
+      height: 60vh;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      animation: fadeIn 2s ease-in-out;
     }
 
     h1 {
       font-size: 2rem;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+      animation: slideDown 1.5s ease-in-out;
     }
 
+    /* Button */
     .support-btn {
-      background: #ff4b5c;
+      background: linear-gradient(45deg, #ff4b5c, #ff7676);
       border: none;
       padding: 15px 25px;
       margin: 20px;
@@ -39,12 +44,16 @@
       color: white;
       cursor: pointer;
       transition: 0.3s;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+      animation: fadeUp 2s ease-in-out;
     }
 
     .support-btn:hover {
-      background: #e63e50;
+      transform: scale(1.05);
+      background: linear-gradient(45deg, #e63e50, #ff5e6c);
     }
 
+    /* Progress bar */
     .progress-container {
       width: 90%;
       max-width: 400px;
@@ -65,12 +74,58 @@
     .percentage {
       margin-top: 10px;
       font-size: 1.2rem;
+      animation: fadeIn 2s ease-in-out;
     }
 
     .hashtag {
       margin: 20px 0;
       font-size: 1.5rem;
       color: #ffd700;
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    /* Share buttons */
+    .share {
+      margin-top: 20px;
+    }
+    .share a {
+      text-decoration: none;
+      color: white;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 8px;
+      display: inline-block;
+      transition: 0.3s;
+    }
+    .twitter { background: #1da1f2; }
+    .whatsapp { background: #25d366; }
+    .facebook { background: #4267B2; }
+
+    .share a:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 30px;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #aaa;
     }
   </style>
 </head>
@@ -92,9 +147,19 @@
   <!-- Hashtag -->
   <div class="hashtag">#WeStandForVijay</div>
 
+  <!-- Share buttons -->
+  <div class="share">
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=I%20support%20%23WeStandForVijay!%20Join%20the%20movement%20here%20👉%20kishore1116.github.io/WE-STAND-FOR-VIJAY/" target="_blank">🐦 Twitter</a>
+    <a class="whatsapp" href="https://wa.me/?text=I%20support%20%23WeStandForVijay!%20Join%20the%20movement%20👉%20kishore1116.github.io/WE-STAND-FOR-VIJAY/" target="_blank">💬 WhatsApp</a>
+    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=kishore1116.github.io/WE-STAND-FOR-VIJAY/" target="_blank">📘 Facebook</a>
+  </div>
+
+  <!-- Footer -->
+  <footer>Created with ❤️ by Kee | TVK Hacker</footer>
+
   <script>
-    const MAX_SUPPORT = 500; // max target in %
-    const STEP = 1; // one person = +1%
+    const MAX_SUPPORT = 500; 
+    const STEP = 1;
 
     let support = localStorage.getItem("supportPercentage") 
                   ? parseInt(localStorage.getItem("supportPercentage")) 
@@ -102,7 +167,7 @@
     let hasSupported = localStorage.getItem("hasSupported") === "true";
 
     function updateProgress() {
-      let progressWidth = (support / MAX_SUPPORT) * 100; // scale bar width
+      let progressWidth = (support / MAX_SUPPORT) * 100; 
       document.getElementById("progress").style.width = progressWidth + "%";
       document.getElementById("percent").innerText = support + "% supported";
     }
