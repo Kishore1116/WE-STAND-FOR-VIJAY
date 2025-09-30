@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>We Stand for Vijay</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #000; /* fallback background color */
+      color: white;
+    }
+
+    .hero {
+      background: url("assets/tvk.jpeg") no-repeat center center/cover;
+      background-color: #111; /* fallback color if image fails */
+      height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    }
+
+    .support-btn {
+      background: #ff4b5c;
+      border: none;
+      padding: 15px 25px;
+      margin: 20px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .support-btn:hover {
+      background: #e63e50;
+    }
+
+    .progress-container {
+      width: 90%;
+      max-width: 400px;
+      background: #333;
+      border-radius: 20px;
+      margin: 0 auto;
+      height: 25px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #4caf50;
+      transition: width 0.5s;
+    }
+
+    .percentage {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
+    .hashtag {
+      margin: 20px 0;
+      font-size: 1.5rem;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1># We Stand for Vijay</h1>
+  </div>
+
+  <!-- Support button -->
+  <button class="support-btn" id="supportBtn" onclick="addSupport()">Support 🙌</button>
+
+  <!-- Progress bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progress"></div>
+  </div>
+  <p class="percentage" id="percent">0% supported</p>
+
+  <!-- Hashtag -->
+  <div class="hashtag">#WeStandForVijay</div>
+
+  <script>
+    const MAX_SUPPORT = 500; // max target in %
+    const STEP = 1; // one person = +1%
+
+    let support = localStorage.getItem("supportPercentage") 
+                  ? parseInt(localStorage.getItem("supportPercentage")) 
+                  : 0;
+    let hasSupported = localStorage.getItem("hasSupported") === "true";
+
+    function updateProgress() {
+      let progressWidth = (support / MAX_SUPPORT) * 100; // scale bar width
+      document.getElementById("progress").style.width = progressWidth + "%";
+      document.getElementById("percent").innerText = support + "% supported";
+    }
+
+    function addSupport() {
+      if (!hasSupported && support < MAX_SUPPORT) {
+        support += STEP;
+        hasSupported = true;
+
+        localStorage.setItem("supportPercentage", support);
+        localStorage.setItem("hasSupported", "true");
+
+        updateProgress();
+        document.getElementById("supportBtn").style.display = "none";
+      }
+    }
+
+    window.onload = function() {
+      updateProgress();
+      if (hasSupported) {
+        document.getElementById("supportBtn").style.display = "none";
+      }
+    }
+  </script>
+
+</body>
+</html>
