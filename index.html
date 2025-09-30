@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="googlecce8cb161229b742" />
   <title>We Stand for Vijay</title>
   <style>
     body {
@@ -72,54 +73,62 @@
   </div>
 
   <!-- Support button -->
-  <button class="support-btn" id="supportBtn" onclick="addSupport()">Support 🙌</button>
+  <button class="support-btn" id="supportBtn" onclick="startSupport()">Support 🙌</button>
 
   <!-- Progress bar -->
   <div class="progress-container">
     <div class="progress-bar" id="progress"></div>
   </div>
-  <p class="percentage" id="percent">0 supported</p>
+  <p class="percentage" id="percent">250 supported</p>
 
   <!-- Hashtag -->
   <div class="hashtag">#WeStandForVijay</div>
 
   <script>
-    const BASE_SUPPORT = 250;  // always start from 250
-    const MAX_SUPPORT = 500;   // full bar at 500
-    const STEP = 1;            // one click = +1
-
-    // load from localStorage or start at 0 (then add base later)
     let support = localStorage.getItem("supportCount") 
                   ? parseInt(localStorage.getItem("supportCount")) 
-                  : 0;
-    let hasSupported = localStorage.getItem("hasSupported") === "true";
+                  : 250;  // start from 250
+
+    let hasStarted = localStorage.getItem("hasStarted") === "true";
+
+    const MAX_SUPPORT = 999999; // no real limit
+    const progressEl = document.getElementById("progress");
+    const percentEl = document.getElementById("percent");
+    const supportBtn = document.getElementById("supportBtn");
 
     function updateProgress() {
-      let displaySupport = BASE_SUPPORT + support; // add base 250
-      let progressWidth = (displaySupport / MAX_SUPPORT) * 100;
+      let progressWidth = (support / MAX_SUPPORT) * 100;
       if (progressWidth > 100) progressWidth = 100;
 
-      document.getElementById("progress").style.width = progressWidth + "%";
-      document.getElementById("percent").innerText = displaySupport + " supported";
+      progressEl.style.width = progressWidth + "%";
+      percentEl.innerText = support + " supported";
     }
 
-    function addSupport() {
-      if (!hasSupported && (BASE_SUPPORT + support) < MAX_SUPPORT) {
-        support += STEP;
-        hasSupported = true;
+    function startSupport() {
+      if (!hasStarted) {
+        hasStarted = true;
+        localStorage.setItem("hasStarted", "true");
+        supportBtn.style.display = "none";
 
-        localStorage.setItem("supportCount", support);
-        localStorage.setItem("hasSupported", "true");
-
-        updateProgress();
-        document.getElementById("supportBtn").style.display = "none";
+        // Increase every 5 seconds
+        setInterval(() => {
+          support++;
+          localStorage.setItem("supportCount", support);
+          updateProgress();
+        }, 5000);
       }
     }
 
     window.onload = function() {
       updateProgress();
-      if (hasSupported) {
-        document.getElementById("supportBtn").style.display = "none";
+      if (hasStarted) {
+        supportBtn.style.display = "none";
+        // continue auto increment
+        setInterval(() => {
+          support++;
+          localStorage.setItem("supportCount", support);
+          updateProgress();
+        }, 5000);
       }
     }
   </script>
